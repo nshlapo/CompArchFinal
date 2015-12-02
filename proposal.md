@@ -19,6 +19,8 @@ We are planning to extend one of our single-cycle CPUs from Lab 3 to support adv
  * Describes an algorithm for approximating logarithms
 * [Floating-point multiplication](http://www.cs.umd.edu/class/sum2003/cmsc311/Notes/BinMath/multFloat.html)
  * Describes an algorithm for floating-point multiplication
+* [Floating-point load](http://stackoverflow.com/questions/2589233/mips-or-spim-loading-floating-point-numbers)
+ * Describes the MIPs standard for loading a floating point value (single or double precision)
 
 ###Deliverables
 Minimum
