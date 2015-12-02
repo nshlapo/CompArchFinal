@@ -1,0 +1,1 @@
+iverilog -o test/compiled verilog/int_multiplier.v test/int_multiplier.t.v && ./test/compiled
