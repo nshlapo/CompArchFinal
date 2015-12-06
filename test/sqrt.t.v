@@ -26,7 +26,7 @@ initial begin
 
     if (Out !== 31'h3f800000) begin
         dutpassed = 1'b0;
-        $display("Failed to take sqrt of 1")
+        $display("Failed to take sqrt of 1");
     end
 
     // if (Out >) begin
@@ -39,7 +39,7 @@ initial begin
 
     if (Out !== 31'h40000000) begin
         dutpassed = 1'b0;
-        $display("Failed to take sqrt of 2")
+        $display("Failed to take sqrt of 2");
     end
 
     // if () begin
@@ -52,7 +52,7 @@ initial begin
 
     if (Out !== 31'h0) begin
         dutpassed = 1'b0;
-        $display("Failed to take sqrt of 0")
+        $display("Failed to take sqrt of 0");
     end
 
     // if () begin
@@ -65,7 +65,7 @@ initial begin
 
     if (Out !== 31'h42c80000) begin
         dutpassed = 1'b0;
-        $display("Failed to take sqrt of 10,000")
+        $display("Failed to take sqrt of 10,000");
     end
 
     // if () begin
