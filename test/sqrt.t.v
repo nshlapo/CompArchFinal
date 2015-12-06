@@ -72,5 +72,7 @@ initial begin
     //     //test for range
     // end
 
+  $display("Sqrt passed?: %b", dutpassed);
+
 
 endmodule

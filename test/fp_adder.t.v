@@ -63,7 +63,7 @@ initial begin
     $display("Failed to add 6,500,000 and 14.");
   end
 
-  $display("DUT passed?: %b", dutpassed);
+  $display("FP adder passed?: %b", dutpassed);
 
 end
 
