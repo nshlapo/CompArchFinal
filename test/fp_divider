@@ -1,0 +1,1 @@
+iverilog -o test/compiled verilog/fp_divider.v test/fp_divider.t.v && ./test/compiled

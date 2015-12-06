@@ -1,0 +1,1 @@
+iverilog -o test/compiled verilog/fp_divider.v verilog/fp_adder.v verilog/sqrt.v test/sqrt.t.v && ./test/compiled
