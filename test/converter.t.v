@@ -58,7 +58,7 @@ initial begin
         $display("Failed to convert negative number with zero exponent", float);
     end
 
-    $display("DUT passed?: %b", dutpassed);
+    $display("Converter passed?: %b", dutpassed);
     $finish;
 end
 endmodule

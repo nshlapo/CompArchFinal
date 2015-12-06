@@ -158,7 +158,7 @@ initial begin
     $display("FP divider test case 8 failed. Read 32'h%h", Out);
   end
 
-  $display("DUT passed?: %b", dutpassed);
+  $display("FP divider passed?: %b", dutpassed);
 end
 
 endmodule
