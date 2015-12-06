@@ -14,7 +14,7 @@ always #5 clk =!clk;
 initial begin
     clk = 0;
     dutpassed = 1'b1;
-    $dumpfile("wave.vcd");
+    $dumpfile("test/waveform.vcd");
     $dumpvars(0, dut);
 
     // $display("           Expected              |              Result");
