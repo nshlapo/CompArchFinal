@@ -61,7 +61,7 @@ always @(posedge int_clk) begin
   end
 end
 //exponent logic
-assign out_exp = a_exp - b_exp - Q[24] + 127;
+assign out_exp = a_exp - b_exp - Q[24]-127;
 //sign bit logic
 xor sign(out_sign, a_sign, b_sign);
 //Concatenate the output values
