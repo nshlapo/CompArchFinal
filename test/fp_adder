@@ -1,0 +1,1 @@
+iverilog -o test/compiled verilog/fp_adder.v test/fp_adder.t.v && ./test/compiled

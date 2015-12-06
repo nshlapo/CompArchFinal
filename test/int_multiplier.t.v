@@ -86,7 +86,7 @@ initial begin
     $display("Failed to multiply 15 and 15. Expected 8'd225, read 8'd%d", product);
   end
 
-  $display("DUT passed?: %b", dutpassed);
+  $display("Int multiplier passed?: %b", dutpassed);
 end
 
 
