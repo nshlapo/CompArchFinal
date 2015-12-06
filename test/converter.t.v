@@ -14,7 +14,7 @@ always #5 clk =!clk;
 initial begin
     clk = 0;
     dutpassed = 1'b1;
-    $dumpfile("wave.vcd");
+    $dumpfile("test/waveform.vcd");
     $dumpvars(0, dut);
 
     // $display("           Expected              |              Result");
@@ -58,7 +58,7 @@ initial begin
         $display("Failed to convert negative number with zero exponent", float);
     end
 
-    $display("DUT passed?: %b", dutpassed);
+    $display("Converter passed?: %b", dutpassed);
     $finish;
 end
 endmodule
