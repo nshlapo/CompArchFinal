@@ -1,0 +1,1 @@
+iverilog -o test/compiled verilog/converter.v test/converter.t.v && ./test/compiled
