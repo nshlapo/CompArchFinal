@@ -71,8 +71,10 @@ initial begin
     // if () begin
     //     //test for range
     // end
+    $finish;
+end
 
-  $display("Sqrt passed?: %b", dutpassed);
+  // $display("Sqrt passed?: %b", dutpassed);
 
 
 endmodule
