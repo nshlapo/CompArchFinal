@@ -12,7 +12,7 @@ wire[7:0] a_exp, b_exp;
 wire[22:0] a_frac, b_frac;
 //calculation regs
 reg start;
-reg zero;
+wire zero;
 reg[47:0] b_reg, a_reg;
 reg[24:0] Q;
 //out wires
@@ -33,6 +33,8 @@ always @(posedge fp_clk) begin
   start <= 1'b1;
 end
 
+assign zero = (b_reg[47:24]==24'b0);
+
 //calculate the quotient Q = A/B (timed to int_clk) by subtracting powers of the denominator B
 always @(posedge int_clk) begin
   if (start===1) begin //Set initial values
@@ -43,25 +45,26 @@ always @(posedge int_clk) begin
   end
   else begin
     if (zero === 0) begin //Check that the denominator hasn't bottomed out, which signals the end of the division.
-      if(b_reg<=a_reg) begin
+      if(a_reg >= b_reg) begin
         a_reg <= a_reg-b_reg;
+	Q <= (Q << 1) +1; //Make space for the next digit of the quotient
+      end
+      else begin
+	Q <= Q << 1;
       end
       b_reg <= (b_reg >> 1); //right shift divides by two
-      Q <= (Q+1) << 1; //Make space for the next digit of the quotient
-      zero <= (b_reg[47:24]===24'b0);
     end
-    else begin //ending sequence, assign frac out and the exponent
-	if (Q[24]===1) begin
+    //else begin //ending sequence, assign frac out and the exponent
+    if (Q[24]===1) begin
 	  out_frac <= Q[23:1];
-	end
-	else begin
+    end
+    else begin
 	  out_frac <= Q[22:0];
-        end
     end
   end
 end
 //exponent logic
-assign out_exp = a_exp - b_exp - Q[24] + 127;
+assign out_exp = a_exp - b_exp - Q[24] + 8'd127;
 //sign bit logic
 xor sign(out_sign, a_sign, b_sign);
 //Concatenate the output values
