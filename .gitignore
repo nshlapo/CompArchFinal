@@ -1,5 +1,8 @@
 test/compiled
-*.do
-*.vcd
-*.ini
-*.bak
+**/*.do
+**/*.vcd
+**/*.ini
+**/*.bak
+**/*.vstf
+**/*.wlf
+**/work
