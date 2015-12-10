@@ -158,7 +158,24 @@ initial begin
     $display("FP divider test case 8 failed. Read 32'h%h", Out);
   end
 
-  $display("FP divider passed?: %b", dutpassed);
+  fp_clk = 1'b1;
+
+  // Test Case 9 -
+  A = 32'h42c80000; // decimal -13.75
+  B = 32'h3f800000; // decimal -5.5
+  for (i=0;i<50;i= i+1) begin
+    #5 int_clk = 1'b1; #5 int_clk = 1'b0;
+    if (i==25) begin
+      fp_clk = 1'b0;
+    end
+  end
+
+  if (Out !== 32'h42c80000) begin // decimal 2.5
+    dutpassed = 1'b0;
+    $display("FP divider test case 9 failed. Read 32'h%h", Out);
+  end
+
+  $display("FP divider passed?: %b, %h", dutpassed, Out);
 end
 
 endmodule
