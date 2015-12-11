@@ -11,7 +11,14 @@ module sqrt
 reg [31:0] sqa, a_reg;
 wire [31:0] ratio, sum, shifted;
 
-fp_divider fdiv (a_reg, sqa, fp_clk, ratio, int_clk);
+fp_divider fdiv(
+  .int_clk(int_clk),
+  .fp_clk(fp_clk),
+  .A(A),
+  .B(sqa),
+  .Out(ratio)
+);
+
 fp_adder fadd (ratio, sqa, sum);
 
 

@@ -1,0 +1,1 @@
+iverilog -o test/compiled verilog/cpu/memory.v test/cpu/memory.t.v && ./test/compiled

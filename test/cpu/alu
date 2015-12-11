@@ -1,0 +1,1 @@
+iverilog -o test/compiled verilog/cpu/ALU.v test/cpu/ALU.t.v && ./test/compiled
