@@ -1,0 +1,1 @@
+./test/cpu/regfile/register; ./test/cpu/regfile/decoder; ./test/cpu/regfile/multiplexer; ./test/cpu/regfile/regfile

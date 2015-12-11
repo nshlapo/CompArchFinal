@@ -1,0 +1,2 @@
+# DOES NOT include ALU or signextend
+./test/cpu/cpu; ./test/cpu/instrfetch; ./test/cpu/memory; ./test/cpu/regfile/all

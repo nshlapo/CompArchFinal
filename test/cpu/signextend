@@ -1,0 +1,1 @@
+iverilog -o test/compiled verilog/cpu/sign_extend.v test/cpu/sign_extend.t.v && ./test/compiled

@@ -1,1 +1,1 @@
-./test/int_multiplier; ./test/converter; ./test/fp_multiplier; ./test/fp_divider; ./test/fp_adder; ./test/sqrt;
+./test/cpu/all; ./test/int_multiplier; ./test/converter; ./test/fp_multiplier; ./test/fp_divider; ./test/fp_adder; ./test/sqrt;
