@@ -8,6 +8,7 @@ module fp_divider
 
 //decode wires
 wire a_sign, b_sign;
+wire not_msb_Q;
 wire[7:0] a_exp, b_exp;
 wire[22:0] a_frac, b_frac;
 //calculation regs
@@ -33,11 +34,11 @@ always @(posedge fp_clk) begin
   start <= 1'b1;
 end
 
-assign zero = (b_reg[47:24]==24'b0);
+assign zero = (b_reg[47:23] == 2'b0);
 
 //calculate the quotient Q = A/B (timed to int_clk) by subtracting powers of the denominator B
 always @(posedge int_clk) begin
-  if (start===1) begin //Set initial values
+  if (start === 1) begin //Set initial values
     start <= 0;
     b_reg <= {1'b1, b_frac, 24'b0}; //
     a_reg <= {1'b1, a_frac, 24'b0}; //a_reg holds the remainder
@@ -46,54 +47,33 @@ always @(posedge int_clk) begin
   else begin
     if (zero === 0) begin //Check that the denominator hasn't bottomed out, which signals the end of the division.
       if(a_reg >= b_reg) begin
-        a_reg <= a_reg-b_reg;
-	Q <= (Q << 1) +1; //Make space for the next digit of the quotient
+        a_reg <= a_reg - b_reg;
+	      Q <= (Q << 1) + 1; //Make space for the next digit of the quotient
       end
       else begin
-	Q <= Q << 1;
+	      Q <= Q << 1;
       end
       b_reg <= (b_reg >> 1); //right shift divides by two
     end
     //else begin //ending sequence, assign frac out and the exponent
     if (Q[24]===1) begin
-	  out_frac <= Q[23:1];
+	    out_frac <= Q[23:1];
     end
     else begin
-	  out_frac <= Q[22:0];
+	    out_frac <= Q[22:0];
     end
   end
 end
-//exponent logic
-assign out_exp = a_exp - b_exp - Q[24] + 8'd127;
-//sign bit logic
-xor sign(out_sign, a_sign, b_sign);
+
+assign not_msb_Q = ~Q[24];
+
+
+assign out_exp = a_exp - b_exp - not_msb_Q + 8'd127;
+
+assign out_sign = a_sign ^ b_sign;
+
+// xor sign(out_sign, a_sign, b_sign);
 //Concatenate the output values
 assign Out = {out_sign, out_exp, out_frac};
 
 endmodule
-
-// module
-// #(width = 32)
-// (
-// input clk,
-// input start,
-// input[width-1:0] A, B,
-// output[2*width-1:0] Q
-// );
-// reg[width*2-1:0] a_reg, r_reg;
-
-// always @(posedge clk) begin
-//    if (start===1) begin
-//   a_reg <= {A,31'b0};
-//   r_reg <= {B,31'b0};
-//   Q <= 63'b0;
-//    end
-//    else begin
-//   if (a_reg>r_reg) begin
-//      r_reg <= r_reg-a_reg;
-//      Q <= Q+1;
-//   end
-//   a_reg >> 2;
-//   Q << 2;
-//    end
-// end
