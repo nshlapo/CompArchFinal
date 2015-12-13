@@ -1,5 +1,7 @@
 [Link to Google Doc for working on writeup](https://docs.google.com/document/d/1Hcz5kvzhGNxFzRZeGMU3i1D9Fpzi3pAoX1fYA9cflWI/edit?usp=sharing)
 
+[Link to Google Doc for working on presentation](https://docs.google.com/presentation/d/15q9rChHXG2N1TWunRFMkKt8hkOGpbc3Un-qYIrW7-RI/edit?usp=sharing)
+
 #Floating Point Unit // Advanced Mathematical Operations
 ###David Abrahams, Jenny Vaccaro, Sarah Walters, Nur Shlapobersky
 
