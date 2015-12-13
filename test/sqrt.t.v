@@ -50,7 +50,7 @@ initial begin
     A = 31'h0; start = 1; #10
     start = 0; #200000
 
-    if (Out > 31'h0) begin
+    if (Out !== 31'h3a800000) begin
         dutpassed = 1'b0;
         $display("Failed to take sqrt of 0. Got %h", Out);
     end
@@ -63,7 +63,7 @@ initial begin
     A = 31'h41100000; start = 1; #10
     start = 0; #200000
 
-    if (Out > 31'h40400000) begin
+    if (Out !== 31'h40400000) begin
         dutpassed = 1'b0;
         $display("Failed to take sqrt of 9. Got %h", Out);
     end

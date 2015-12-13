@@ -66,7 +66,7 @@ WRITE THINGS HERE ABOUT OUR TESTS
 ##Difficulties
 Withing each floating-point module, we encountered the constant difficulty of keeping track of our radix point. Each mathematical operation required different methods of calculating the resultant position. Most of the time we spent debugging was to diagnose incorrect placement of radix points.
 
-Division and multiplication rely on repeated subtractions or additions, respectively. This necessitates deciding between using only combinational logic and using up large amounts of space, or using clocked logic and less space.
+Division and multiplication rely on repeated subtractions or additions, respectively. This necessitates deciding between using only combinational logic and using up large amounts of space, or using clocked logic and less space. Because we decided to use clocked logic, we had to create multiple clocks to control differential levels of modules. The CPU we integrated with
 
 Clocking operations properly. We ran into some problems becaus we're single cycle, but you'd run into others if you were multi-cycling.
 
