@@ -1,14 +1,14 @@
 module CPU(
-	input clk
+	input clk, sqrt_clk, fp_clk, int_clk
 );
 
 // 32 bit wires to connect components of CPU
 wire [31:0] wire0, wire1, wire2, wire3, wire4, wire5, wire6, wire8, wire9, wire10, wire13;
 
 // Wires for flags and control signals
-wire branch, reg_write, mem_write, alu_src, jal, zero;
+wire branch, reg_write, mem_write, alu_src, jal, zero, fp_reg_write, fp_alu_src, fp_reg_dst;
 wire [1:0] jump, reg_dst, mem_to_reg;
-wire [2:0] alu_ctrl;
+wire [2:0] alu_ctrl, fp_alu_ctrl;
 wire [4:0] Rs, Rt, Rd, wire11, wire12;
 wire [15:0] immediate;
 wire [25:0] target;
@@ -80,15 +80,33 @@ instr_decoder instr_decoder(
 	.mem_write(mem_write),
 	.alu_src(alu_src),
 	.jal(jal),
+	.fp_reg_write(fp_reg_write),
+	.fp_alu_src(fp_alu_src),
+	.fp_reg_dst(fp_reg_dst),
 	.jump(jump),
 	.reg_dst(reg_dst),
 	.mem_to_reg(mem_to_reg),
 	.alu_ctrl(alu_ctrl),
+	.fp_alu_ctrl(fp_alu_ctrl),
 	.Rs(Rs),
 	.Rt(Rt),
 	.Rd(Rd),
 	.immediate(immediate),
 	.target(target)
+);
+
+FPU fpu(
+	.cpu_clk(clk),
+	.sqrt_clk(sqrt_clk),
+	.fp_clk(fp_clk),
+	.int_clk(int_clk),
+	.fp_alu_src(fp_alu_src),
+	.fp_reg_dst(fp_reg_dst),
+	.fp_alu_ctrl(fp_alu_ctrl),
+	.Rs(Rs),
+	.Rt(Rt),
+	.Rd(Rd),
+	.immediate(immediate)
 );
 
 // Connect all components together

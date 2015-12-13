@@ -7,11 +7,17 @@ reg clk;
 reg dutpassed;
 
 CPU dut(
-	.clk(clk)
+	.clk(clk),
+  .sqrt_clk(sqrt_clk),
+  .fp_clk(fp_clk),
+  .int_clk(int_clk)
 );
 
 initial clk = 1;
-always #10 clk=!clk; // 50MHz Clock
+always #1000 clk=!clk;
+always #100 sqrt_clk=!sqrt_clk;
+always #10 fp_clk=!fp_clk;
+always #1 int_clk=!int_clk;
 
 initial begin
 	$dumpfile("test/waveform.vcd");
