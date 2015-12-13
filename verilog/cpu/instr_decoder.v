@@ -8,9 +8,9 @@ Takes in an instruction, outputs all control signals for CPU components
 module instr_decoder (
     input [31:0] instruction,
     input clk,
-    output reg branch, reg_write, mem_write, alu_src, jal, fp_reg_write, fp_alu_src,
-    output reg [1:0] jump, reg_dst, mem_to_reg, fp_reg_dst,
-    output reg [2:0] alu_ctrl, fp_alu_cntrl,
+    output reg branch, reg_write, mem_write, alu_src, jal, fp_reg_write, fp_alu_src, fp_reg_dst,
+    output reg [1:0] jump, reg_dst, mem_to_reg,
+    output reg [2:0] alu_ctrl, fp_alu_ctrl,
     output reg [4:0] Rs, Rt, Rd,
     output reg [15:0] immediate,
     output reg [25:0] target
@@ -72,8 +72,8 @@ always @(instruction) begin
             immediate = instruction[15:0];
 
             fp_reg_write = 1'b0;
-            fp_alu_cntrl = 3'bx;
-            fp_reg_dst = 2'bx;
+            fp_alu_ctrl = 3'bx;
+            fp_reg_dst = 1'bx;
             fp_alu_src = 1'bx;
         end
 
@@ -91,8 +91,8 @@ always @(instruction) begin
             immediate = instruction[15:0];
 
             fp_reg_write = 1'b0;
-            fp_alu_cntrl = 3'bx;
-            fp_reg_dst = 2'bx;
+            fp_alu_ctrl = 3'bx;
+            fp_reg_dst = 1'bx;
             fp_alu_src = 1'bx;
         end
 
@@ -110,8 +110,8 @@ always @(instruction) begin
             immediate = instruction[15:0];
 
             fp_reg_write = 1'b0;
-            fp_alu_cntrl = 3'bx;
-            fp_reg_dst = 2'bx;
+            fp_alu_ctrl = 3'bx;
+            fp_reg_dst = 1'bx;
             fp_alu_src = 1'bx;
         end
 
@@ -129,8 +129,8 @@ always @(instruction) begin
             immediate = 16'd8;
 
             fp_reg_write = 1'b0;
-            fp_alu_cntrl = 3'bx;
-            fp_reg_dst = 2'bx;
+            fp_alu_ctrl = 3'bx;
+            fp_reg_dst = 1'bx;
             fp_alu_src = 1'bx;
         end
 
@@ -148,8 +148,8 @@ always @(instruction) begin
             immediate = instruction[15:0];
 
             fp_reg_write = 1'b0;
-            fp_alu_cntrl = 3'bx;
-            fp_reg_dst = 2'bx;
+            fp_alu_ctrl = 3'bx;
+            fp_reg_dst = 1'bx;
             fp_alu_src = 1'bx;
         end
 
@@ -167,8 +167,8 @@ always @(instruction) begin
             immediate = instruction[15:0];
 
             fp_reg_write = 1'b0;
-            fp_alu_cntrl = 3'bx;
-            fp_reg_dst = 2'bx;
+            fp_alu_ctrl = 3'bx;
+            fp_reg_dst = 1'bx;
             fp_alu_src = 1'bx;
         end
 
@@ -182,8 +182,8 @@ always @(instruction) begin
             immediate = instruction[15:0];
 
             fp_reg_write = 1'b0;
-            fp_alu_cntrl = 3'bx;
-            fp_reg_dst = 2'bx;
+            fp_alu_ctrl = 3'bx;
+            fp_reg_dst = 1'bx;
             fp_alu_src = 1'bx;
 
             case (func_code)
@@ -243,32 +243,32 @@ always @(instruction) begin
             case (func_code)
 
                 FPU_ADD_S: begin
-                    fp_alu_cntrl = 3'd0;
-                    fp_reg_dst = 2'b1;
+                    fp_alu_ctrl = 3'd0;
+                    fp_reg_dst = 1'b1;
                     fp_alu_src = 1'b0;
                 end
 
                 FPU_MUL_S: begin
-                    fp_alu_cntrl = 3'd1;
-                    fp_reg_dst = 2'b1;
+                    fp_alu_ctrl = 3'd1;
+                    fp_reg_dst = 1'b1;
                     fp_alu_src = 1'b0;
                 end
 
                 FPU_DIV_S: begin
-                    fp_alu_cntrl = 3'd2;
-                    fp_reg_dst = 2'b1;
+                    fp_alu_ctrl = 3'd2;
+                    fp_reg_dst = 1'b1;
                     fp_alu_src = 1'b0;
                 end
 
                 FPU_SQRT_S: begin
-                    fp_alu_cntrl = 3'd3;
-                    fp_reg_dst = 2'b1;
+                    fp_alu_ctrl = 3'd3;
+                    fp_reg_dst = 1'b1;
                     fp_alu_src = 1'b0;
                 end
 
                 FPU_MULTI_S: begin
-                    fp_alu_cntrl = 3'd1;
-                    fp_reg_dst = 2'b0;
+                    fp_alu_ctrl = 3'd1;
+                    fp_reg_dst = 1'b0;
                     fp_alu_src = 1'b1;
                 end
 
@@ -289,8 +289,8 @@ always @(instruction) begin
             immediate = instruction[15:0];
 
             fp_reg_write = 1'b0;
-            fp_alu_cntrl = 3'b0;
-            fp_reg_dst = 2'b0;
+            fp_alu_ctrl = 3'b0;
+            fp_reg_dst = 1'b0;
             fp_alu_src = 1'b0;
         end
     endcase
