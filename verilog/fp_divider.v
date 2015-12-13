@@ -55,7 +55,7 @@ always @(posedge int_clk) begin
       end
       b_reg <= (b_reg >> 1); //right shift divides by two
     end
-    //else begin //ending sequence, assign frac out and the exponent
+    //ending sequence, assign frac out and the exponent
     if (Q[24]===1) begin
 	    out_frac <= Q[23:1];
     end
