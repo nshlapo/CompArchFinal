@@ -23,22 +23,22 @@ Floating point units (FPUs) support mathematical operations in the floating poin
 ![Basic FPU block diagram]()
 We constructed our FPU by progressively building up the complexity of our mathematical components. We began with a simple converter from 32-bit integer format to 32-bit single precision floating point format, which is required if we want our CPU to be able to pass immediates to the FPU.
 
-![Converter block diagram]()
+![Converter block diagram](img/final/converter.jpg)
 
 ###Multiplication
 Our next module was an integer multiplier which performs a series of shifts and additions to calculate the product of two inputs. This was easily scalable into a floating-point multiplier, since the only additional operations needed were to keep track of exponents and appropriately place the radix point after a multiplication.
 
-![Multiplication block diagram](img/fp-multiplier.jpg)
+![Multiplication block diagram](img/final/fp_multiplier.jpg)
 
 ###Division
 In order to perform a floating point division, we realized we needed a floating point Simple-Less-Than module and Zero checker. We used behavioural verilog to model these in order to maximize the time we spent constructing new mathematical operation modules (although it would essentially involve a converter and the bitwise modules we constructed for our earlier ALU). The divider uses combinations of shifts and subtractions to calculate the quotient.
 
-![Division module block diagram](img/fp-divider.jpg)
+![Division module block diagram](img/final/fp_divider.jpg)
 
 ###Square Root
 Our square root approximation module required one more component: a simple positive number floating-point adder. The floating point adder right-shifts the number with the smaller exponent, and then adds the numbers together in the base of the larger number.
 
-![Floating-point addition block diagram](img/fp-adder.jpg)
+![Floating-point addition block diagram](img/final/fp_adder.jpg)
 
 Finally, we had all the necessary modules for performing a square root calculation. We used Newton’s method, which offers an approximation based on the following equation
 ```
@@ -48,7 +48,7 @@ where `a` is our approximation of the square root and `S` is the operand.
 
 We created a module which simulates this calculation, and performs this iteratively for the length of one cpu clock cycle, which allows for approximately 20 iterations.
 
-![Square root module block diagram](img/sqrt.jpg)
+![Square root module block diagram](img/final/sqrt.jpg)
 
 ###Integration
 WRITE THINGS HERE ABOUT INTEGRATION
