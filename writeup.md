@@ -20,18 +20,23 @@ The IEEE 754 standard enables computers to represent non-integer numbers. IEEE 7
 Floating point units (FPUs) support mathematical operations in the floating point domain. With a small number of floating point operations (addition, multiplication, division, square root), we can compute excellent approximations to a variety of functions -- trigonometric, exponentials, and logarithms, among others.
 
 ##FPU Construction
+
 ![Basic FPU block diagram]()
+
 We constructed our FPU by progressively building up the complexity of our mathematical components. We began with a simple converter from 32-bit integer format to 32-bit single precision floating point format, which is required if we want our CPU to be able to pass immediates to the FPU.
 
 ![Converter block diagram](img/final/converter.jpg)
 
+The converter functions by first converting 2s complement negatives to their corresponding positive number. It left shifts the 32-bit fixed number until it encounters a 1 in the MSB. It then outputs the 23 MSBs, the correct 2^n exponent, and the sign bit of the original number.
+
 ###Multiplication
-Our next module was an integer multiplier which performs a series of shifts and additions to calculate the product of two inputs. This was easily scalable into a floating-point multiplier, since the only additional operations needed were to keep track of exponents and appropriately place the radix point after a multiplication.
+
+Our next module was an integer multiplier which performs a series of shifts and additions to calculate the product of two inputs. This was easily scalable into a floating-point multiplier, since the only additional operations needed were to keep track of exponents and appropriately place the radix point after a multiplication. The multiplier works similiar to how one does multiplication by hand, left shifting one of the operands and then adding it to the result if the corresponding bit of the other operand is 1.
 
 ![Multiplication block diagram](img/final/fp_multiplier.jpg)
 
 ###Division
-In order to perform a floating point division, we realized we needed a floating point Simple-Less-Than module and Zero checker. We used behavioural verilog to model these in order to maximize the time we spent constructing new mathematical operation modules (although it would essentially involve a converter and the bitwise modules we constructed for our earlier ALU). The divider uses combinations of shifts and subtractions to calculate the quotient.
+In order to perform a floating point division, we follow a similar procedure as mulitplication, emulating the long division process. The divider uses combinations of shifts, less-than checks, and subtractions to calculate the quotient.
 
 ![Division module block diagram](img/final/fp_divider.jpg)
 
@@ -64,16 +69,17 @@ WRITE THINGS HERE ABOUT OUR TESTS
 
 
 ##Difficulties
-Withing each floating-point module, we encountered the constant difficulty of keeping track of our radix point. Each mathematical operation required different methods of calculating the resultant position. Most of the time we spent debugging was to diagnose incorrect placement of radix points.
 
-Division and multiplication rely on repeated subtractions or additions, respectively. This necessitates deciding between using only combinational logic and using up large amounts of space, or using clocked logic and less space. Because we decided to use clocked logic, we had to create multiple clocks to control differential levels of modules. The CPU we integrated with
+Writing each floating-point module, we encountered the constant difficulty of keeping track of our radix point. Each mathematical operation required different methods of calculating the resultant position. Most of the time we spent debugging was to diagnose incorrect placement of radix points.
 
-Clocking operations properly. We ran into some problems becaus we're single cycle, but you'd run into others if you were multi-cycling.
+Division and multiplication rely on repeated subtractions or additions, respectively. This necessitates deciding between using only combinational logic and using up large amounts of space, or using clocked logic and less space. Because we decided to use clocked logic, we had to create multiple clocks to control differential levels of modules. The CPU we integrated with WRITE SOME STUFF HERE.
 
-Properly calculating radix point locations. Using mostly combinational logic. Figure out what scenarios we're going to run into.
+We also had difficulties clocking operations properly. We ran into some problems because our CPU is single cycle but we need to perform many operations iteratively.
+
+Additionally, adding on the implicit 1 at the beginning of floating point numbers to do operations and then removing it afterward caused many off-by-one errors. Often the new implicit one would not be in the same spot as the operand's implicit one.
 
 ##Work Plan Reflection
-All our planned operations were diagrammed by our 2nd meeting.
-Lot of debugging to figure out division problems
-Working in parallel on documentation and debugging.
-Most of mathematics is far easier to understand than we expected.
+
+We were reasonably accurate with scoping the project in terms of time spent, but we incorrectly alotted time. We were able to accomplish everything we had planned, and succeeded at a stretch goal of having CPU integration.
+
+We alotted algorithm analysis the most time, but every algorithm was reasonably simple to determine. Actually creating the block diagrams and then debugging the corresponding verilog modules was where most of our time was spent, as well as debugging the CPU integration.
