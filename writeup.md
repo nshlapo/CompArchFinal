@@ -56,16 +56,16 @@ We created a module which simulates this calculation, and performs this iterativ
 ![Square root module block diagram](img/final/sqrt.jpg)
 
 ###Integration
-WRITE THINGS HERE ABOUT INTEGRATION
+In order to test our floating point math by running assembly code, we integrated the floating point unit with a single-cycle CPU. The integration was limited, because we do not allow floating point values to be stored to memory. Instead, floating point number values are limited to a floating point register. This allowed us to run the MIPS operations of mul.s and div.s. Additionally, though MIPS does not support these functions, we supported a positive floating-point addition, a multiply immediate, and a square root approximation.
 
 ![Block diagram of CPU/FPU interaction]()
 
 ##Assembly Operations
-WRITE THINGS HERE ABOUT OUR ASSEMBLY OPERATIONS
+We used the MIPS opp codes for multiplication and division. However, in order to run our other operations, we repurposed some other MIPS commands. This was fairly straightforward with floating point addition and square root approximation. However, because all floating point MIPS instructions are R-type, (MIPS FPUs do not deal with immediates) our multiply immediate repurposed an invented I-type imstruction. This added a level of complexity, because we had to write assembly programs by hand rather than in MARS.
 
 
 ##Testing
-WRITE THINGS HERE ABOUT OUR TESTS
+We successfully created assembly test programs to test the integration.
 
 
 ##Difficulties
