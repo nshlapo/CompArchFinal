@@ -1,0 +1,25 @@
+fp_add.dat pseudocode:
+
+multi.s $t0, $zero, (4 in floating point) -> 48084080
+multi.s $t1, $zero, (6 in floating point) -> 480940C0
+add.s $t2, $t0, $t1 -> 45095000
+
+
+fp_divide.dat pseudocode:
+
+multi.s $t0, $zero, (4 in floating point) -> 48084080
+multi.s $t1, $zero, (6 in floating point) -> 480940C0
+div.s $t2, $t0, $t1 -> 45095003
+
+
+fp_multiply.dat pseudocode:
+
+multi.s $t0, $zero, (4 in floating point) -> 48084080
+multi.s $t1, $zero, (6 in floating point) -> 480940C0
+mul.s $t2, $t0, $t1 -> 45095002
+
+
+fp_sqrt.dat pseudocode:
+
+multi.s $t1, $zero, (6 in floating point) -> 480940C0
+sqrt.s $t2, $t1 -> 45205004

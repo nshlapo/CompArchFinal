@@ -49,9 +49,8 @@ sign_extend signExt(
 memory memory(
 	.clk(clk),
 	.regWE(mem_write),
-
 	.DataAddr(wire3_10b),
-	.DataIn(wire7),
+	.DataIn(wire9),
 	.InstrAddr(wire2_10b),
 	.DataOut(wire4),
 	.InstrOut(wire6)

@@ -9,7 +9,7 @@ module memory(
   always @(posedge clk)
     if (regWE)
       mem[DataAddr] <= DataIn;
-  initial $readmemh("data/sum.dat", mem); // Test expects "data/sum.dat"
+  initial $readmemh("data/fp_sqrt.dat", mem); // Test expects "data/sum.dat"
   assign DataOut = mem[DataAddr];
   assign InstrOut = mem[InstrAddr >> 2];
 endmodule

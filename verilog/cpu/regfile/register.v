@@ -45,9 +45,7 @@ input clk
   parameter width = 32; // # bits in d and q
   integer i;
   always @(posedge clk) begin
-    for (i = 0; i < width; i = i + 1) begin
-      q[i] = 0;
-    end
+    q <= d;
   end
 
 endmodule

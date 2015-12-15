@@ -8,8 +8,9 @@ module fp_alu(
 parameter FPU_ADD = 3'd0; // add.s
 parameter FPU_MUL = 3'd1; // mul.s
 parameter FPU_DIV = 3'd2; // div.s
+parameter SQRT = 3'd3;
 
-wire [31:0] addOut, divideOut, multOut;
+wire [31:0] addOut, divideOut, multOut, sqrtOut;
 
 fp_adder fpadd(
   .A(a),
@@ -33,14 +34,14 @@ fp_multiplier fpmultiply(
   .Out(multOut)
 );
 
-// sqrt fpsqrt(
-//   .int_clk(int_clk),
-//   .fp_clk(fp_clk),
-//   .sqrt_clk(sqrt_clk),
-//   .cpu_clk(cpu_clk),
-//   .A(a),
-//   .Out(out)
-// );
+sqrt fpsqrt(
+  .int_clk(int_clk),
+  .fp_clk(fp_clk),
+  .sqrt_clk(sqrt_clk),
+  .cpu_clk(cpu_clk),
+  .A(a),
+  .Out(sqrtOut)
+);
 
 always @(*) begin
   case (selector)
@@ -54,6 +55,10 @@ always @(*) begin
 
     FPU_DIV: begin
       out = divideOut;
+    end
+
+    SQRT: begin
+      out = sqrtOut;
     end
 
   endcase

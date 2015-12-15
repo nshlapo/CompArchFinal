@@ -1,5 +1,6 @@
 module FPU(
-  input cpu_clk, sqrt_clk, fp_clk, int_clk, fp_alu_src, fp_reg_dst,
+  input cpu_clk, sqrt_clk, fp_clk, int_clk,
+  input fp_alu_src, fp_reg_dst,
   input[2:0] fp_alu_ctrl,
   input [4:0] Rs, Rt, Rd,
   input [15:0] immediate
@@ -12,7 +13,7 @@ assign paddedImm = {immediate, 16'b0};
 assign regDst = fp_reg_dst ? Rd : Rt;
 assign aluIn2 = fp_alu_src ? paddedImm : regData2;
 
-regfile regfile(
+regfile #(32'h3f800000) fpregfile(
   .ReadData1(regData1),
   .ReadData2(regData2),
   .WriteData(aluOut),

@@ -1,13 +1,11 @@
 module sqrt
 (
   input[31:0] A,
-  input sqrt_clk,
-  input fp_clk,
-  input int_clk,
-  input start,
-  output[31:0] Out
+  input cpu_clk, sqrt_clk, fp_clk, int_clk,
+  output [31:0] Out
 );
 
+reg start;
 reg [31:0] sqa, a_reg;
 wire [31:0] ratio, sum, shifted;
 
@@ -32,12 +30,16 @@ always @(posedge int_clk) begin
     if (start)
       sqa <= 32'h3f800000;
       a_reg <= A;
+      start <= 0;
 end
 
 always @(posedge sqrt_clk) begin
-
     if (start == 0)
         sqa <= shifted;
+end
+
+always @(posedge cpu_clk) begin
+    start <= 1;
 end
 
 endmodule

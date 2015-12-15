@@ -36,13 +36,13 @@ parameter JR = 6'h8;
 // FPU
 // ...opcode parameters
 parameter FPU_FUNC = 6'h11;
+parameter FPU_MULTI_S = 6'h12; // choosing h12 to be the opcode for "multiply by immediate" -- this is NOT part of the MIPS standard
 
 // ...function parameters
 parameter FPU_ADD_S = 6'h0; // add.s
 parameter FPU_MUL_S = 6'h2; // mul.s
 parameter FPU_DIV_S = 6'h3; // div.s
 parameter FPU_SQRT_S = 6'h4; // sqrt.s
-parameter FPU_MULTI_S = 6'h5; // multiply by immediate -- need to pick instr. to steal
 
 reg [5:0] op_code, func_code;
 
@@ -266,13 +266,25 @@ always @(instruction) begin
                     fp_alu_src = 1'b0;
                 end
 
-                FPU_MULTI_S: begin
-                    fp_alu_ctrl = 3'd1;
-                    fp_reg_dst = 1'b0;
-                    fp_alu_src = 1'b1;
-                end
-
             endcase
+        end
+
+        FPU_MULTI_S: begin
+            branch = 1'b0;
+            reg_write = 1'b0;
+            mem_write = 1'b0;
+            alu_src = 1'bx;
+            jal = 1'b0;
+            jump =  2'b0;
+            reg_dst = 2'bx;
+            mem_to_reg = 2'bx;
+            alu_ctrl = 3'bx;
+            immediate = instruction[15:0];
+
+            fp_reg_write = 1'b1;
+            fp_alu_ctrl = 3'd1;
+            fp_reg_dst = 1'b0;
+            fp_alu_src = 1'b1;
         end
 
         // Default case
