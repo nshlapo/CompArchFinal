@@ -14,7 +14,7 @@ A floating point unit is often termed a “math coprocessor”. It has its own f
 
 ##Significance
 ###Floating Point Math
-The IEEE 754 standard enables computers to represent non-integer numbers. IEEE 754, like an ISA, is a specification which computers of different types can conform to in order to parse a binary string representing a floating point number in the same way. The floating point format is powerful because, with 32 bits, it is able to represent decimal numbers as large as +/- 3.4*10^38 and as small as +/- 2.9*10^-39 (ignoring denormalization) with 23 bits of precision. By contrast, 32-bit signed integers range from -2.2*10^9 to 2.2*10^9.
+The IEEE 754 standard enables computers to represent non-integer numbers. IEEE 754, like an ISA, is a specification which computers of different types can conform to in order to parse a binary string representing a floating point number in the same way. The floating point format is powerful because, with 32 bits, it is able to represent decimal numbers as large as +/- 3.4\*10<sup>38</sup> and as small as +/- 2.9\*10<sup>-39</sup> (ignoring denormalization) with 23 bits of precision. By contrast, 32-bit signed integers range from -2.2\*10<sup>9</sup> to 2.2*10<sup>9</sup>.
 
 ###Mathematical Function Estimations
 Floating point units (FPUs) support mathematical operations in the floating point domain. With a small number of floating point operations (addition, multiplication, division, square root), we can compute excellent approximations to a variety of functions -- trigonometric, exponentials, and logarithms, among others.
@@ -46,9 +46,9 @@ Our square root approximation module required one more component: a simple posit
 ![Floating-point addition block diagram](img/final/fp_adder.jpg)
 
 Finally, we had all the necessary modules for performing a square root calculation. We used Newton’s method, which offers an approximation based on the following equation
-```
-a_(n+1) = (a_n + S/a_n)/2
-```
+
+a<sub>n+1</sub> = (a<sub>n</sub> + S/a<sub>n</sub>)/2
+
 where `a` is our approximation of the square root and `S` is the operand.
 
 We created a module which simulates this calculation, and performs this iteratively for the length of one cpu clock cycle, which allows for approximately 20 iterations.
@@ -56,17 +56,43 @@ We created a module which simulates this calculation, and performs this iterativ
 ![Square root module block diagram](img/final/sqrt.jpg)
 
 ###Integration
-In order to test our floating point math by running assembly code, we integrated the floating point unit with a single-cycle CPU. The integration was limited, because we do not allow floating point values to be stored to memory. Instead, floating point number values are limited to a floating point register. This allowed us to run the MIPS operations of mul.s and div.s. Additionally, though MIPS does not support these functions, we supported a positive floating-point addition, a multiply immediate, and a square root approximation.
+In order to test our floating point math by running assembly code, we integrated the floating point unit with a single-cycle CPU. The integration was limited, because we do not allow floating point values to be stored to memory. Instead, floating point number values are limited to a floating point register. This allowed us to run the MIPS operations of `add.s`, `mul.s`, `div.s`, and `sqrt.s`. Unlike `add.s`, our addition operation only adds the magnitudes of its operands -- in other words, it only adds positive numbers. Additionally, though MIPS does not support this function, we supported a multiply by immediate operation, which we refer to as `multi.s`. We repurposed the zero register of the regfile to store the IEEE 754 representation of the number 1; this allowed us to multiply IEEE 754-format floats into floating point registers.
 
-![Block diagram of CPU/FPU interaction]()
+The floating point unit is almost entirely detached from the CPU -- the only link between them is the instruction decode module in the CPU, which provides command flags both to the main CPU and to the FPU coprocessor. Instruction fetch is handled by the CPU just as in Lab 3.
+
+![Block diagram of CPU/FPU interaction](img/final/fpu.jpg)
+![Command flags from instruction decode module](img/final/id_flags.png)
 
 ##Assembly Operations
-We used the MIPS opp codes for multiplication and division. However, in order to run our other operations, we repurposed some other MIPS commands. This was fairly straightforward with floating point addition and square root approximation. However, because all floating point MIPS instructions are R-type, (MIPS FPUs do not deal with immediates) our multiply immediate repurposed an invented I-type imstruction. This added a level of complexity, because we had to write assembly programs by hand rather than in MARS.
+MIPS includes op codes for `mul.s`, `div.s`, `add.s`, and `sqrt.s`. However, because no floating point MIPS instructions are I-type (MIPS FPUs do not deal with immediates), our multiply by immediate operation is an invented I-type instruction with an op code of h12. Inventing an instruction added complexity: we had to write hexadecimal instructions by hand instead of writing Assembly programs in MARS and compiling them.
 
 
 ##Testing
-We successfully created assembly test programs to test the integration.
+We created test programs for each of the four operations. Below are the pseudo-Assembly instructions and links to the hexadecimal instruction files for the four programs.
 
+* Floating point addition ([hexadecimal instructions](data/fp_add.dat))
+```
+multi.s $t0, $zero, (4 in floating point)
+multi.s $t1, $zero, (6 in floating point)
+add.s $t2, $t0, $t1
+```
+* Floating point division ([hexadecimal instructions](data/fp_divide.dat))
+```
+multi.s $t0, $zero, (4 in floating point)
+multi.s $t1, $zero, (6 in floating point)
+div.s $t2, $t0, $t1
+```
+* Floating point multiplication ([hexadecimal instructions](data/fp_multiply.dat))
+```
+multi.s $t0, $zero, (4 in floating point)
+multi.s $t1, $zero, (6 in floating point)
+mul.s $t2, $t0, $t1
+```
+* Square root approximation ([hexadecimal instructions](data/fp_sqrt.dat))
+```
+multi.s $t1, $zero, (6 in floating point)
+sqrt.s $t2, $t1
+```
 
 ##Difficulties
 
@@ -80,6 +106,6 @@ Additionally, adding on the implicit 1 at the beginning of floating point number
 
 ##Work Plan Reflection
 
-We were reasonably accurate with scoping the project in terms of time spent, but we incorrectly alotted time. We were able to accomplish everything we had planned, and succeeded at a stretch goal of having CPU integration.
+We were reasonably accurate with scoping the project in terms of time spent, but we allotted time incorrectly. We were able to accomplish everything we had planned, and succeeded at a stretch goal of integrating the FPU coprocessor with a single-cycle CPU from Lab 3.
 
-We alotted algorithm analysis the most time, but every algorithm was reasonably simple to determine. Actually creating the block diagrams and then debugging the corresponding verilog modules was where most of our time was spent, as well as debugging the CPU integration.
+We allotted the most time to algorithm development, but it was reasonably simple to determine an algorithm for each mathematical operation. We spent most of our time creating block diagrams to execute the algorithms, debugging the corresponding verilog modules, and debugging the CPU integration.
