@@ -23,11 +23,11 @@ We constructed our FPU by progressively building up the complexity of our mathem
 We began with a simple converter from 32-bit integer format to 32-bit single precision floating point format.
 ![Converter block diagram](img/final/converter.jpg)
 
-The converter functions by first converting 2s complement negatives to their corresponding positive number. It left shifts the 32-bit fixed number until it encounters a 1 in the MSB. It then outputs the result as a floating point number, which consists of a sign bit, the correct 2<sup>n</sup> exponent, and 23 significant digits after the radix point.
+The converter functions by first converting 2's complement negatives to their corresponding positive number. It left shifts the 32-bit fixed number until it encounters a 1 in the MSB. It then outputs the result as a floating point number, which consists of a sign bit, the correct 2<sup>n</sup> exponent, and 23 significant digits after the radix point.
 
 ###Multiplication
 
-Our next module was an integer multiplier which performs a series of shifts and additions, simulating grade-school multiplication, to calculate the product of two inputs. This was easily scalable into a floating-point multiplier, since the only additional operations needed were to keep track of exponents and appropriately place the radix point after a multiplication. The multiplier works similiar to how one does multiplication by hand, left shifting one of the operands and then adding it to the result if the corresponding bit of the other operand is 1.
+Our next module was an integer multiplier which performs a series of shifts and additions, simulating partial product multiplication, to calculate the product of two inputs. This was easily scalable into a floating-point multiplier, since the only additional operations needed were to keep track of exponents and appropriately place the radix point after a multiplication. The multiplier works similiar to how one does multiplication by hand, left shifting one of the operands and then adding it to the result if the corresponding bit of the other operand is 1.
 
 ![Multiplication block diagram](img/final/fp_multiplier.jpg)
 
@@ -68,25 +68,25 @@ We created test programs for each of the four operations. Below are the pseudo-A
 
 * Floating point addition ([hexadecimal instructions](data/fp_add.dat))
 ```
-multi.s $t0, $zero, (4 in floating point)
-multi.s $t1, $zero, (6 in floating point)
+multi.s $t0, $zero, h4080 (4 in floating point)
+multi.s $t1, $zero, h40c0 (6 in floating point)
 add.s $t2, $t0, $t1
 ```
 * Floating point division ([hexadecimal instructions](data/fp_divide.dat))
 ```
-multi.s $t0, $zero, (4 in floating point)
-multi.s $t1, $zero, (6 in floating point)
+multi.s $t0, $zero, h4080 (4 in floating point)
+multi.s $t1, $zero, h40c0 (6 in floating point)
 div.s $t2, $t0, $t1
 ```
 * Floating point multiplication ([hexadecimal instructions](data/fp_multiply.dat))
 ```
-multi.s $t0, $zero, (4 in floating point)
-multi.s $t1, $zero, (6 in floating point)
+multi.s $t0, $zero, h4080 (4 in floating point)
+multi.s $t1, $zero, h40c0 (6 in floating point)
 mul.s $t2, $t0, $t1
 ```
 * Square root approximation ([hexadecimal instructions](data/fp_sqrt.dat))
 ```
-multi.s $t1, $zero, (6 in floating point)
+multi.s $t1, $zero, h40c0 (6 in floating point)
 sqrt.s $t2, $t1
 ```
 
