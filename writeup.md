@@ -17,8 +17,10 @@ Floating point units (FPUs) support mathematical operations in the floating poin
 
 ##FPU Construction
 
-We constructed our FPU by progressively building up the complexity of our mathematical components. We began with a simple converter from 32-bit integer format to 32-bit single precision floating point format.
+We constructed our FPU by progressively building up the complexity of our mathematical components.
 
+###Converter
+We began with a simple converter from 32-bit integer format to 32-bit single precision floating point format.
 ![Converter block diagram](img/final/converter.jpg)
 
 The converter functions by first converting 2s complement negatives to their corresponding positive number. It left shifts the 32-bit fixed number until it encounters a 1 in the MSB. It then outputs the result as a floating point number, which consists of a sign bit, the correct 2<sup>n</sup> exponent, and 23 significant digits after the radix point.
